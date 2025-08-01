@@ -1,0 +1,5 @@
+{
+  "model_name": "Gradient Boosting (Tuned)",
+  "feature_count": 83,
+  "model_type": "GradientBoostingRegressor"
+}

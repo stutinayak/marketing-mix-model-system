@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Mix Model Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <header class="bg-primary text-white p-3 mb-4">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1><i class="fas fa-chart-line me-2"></i>Marketing Mix Model Dashboard</h1>
+                    <p class="mb-0">AI-powered marketing analytics and sales prediction</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <div class="status-indicator" id="apiStatus">
+                            <i class="fas fa-circle text-success"></i>
+                            <span>API Connected</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <ul class="nav nav-tabs mb-4" id="mainTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="prediction-tab" data-bs-toggle="tab" data-bs-target="#prediction" type="button" role="tab">
+                    <i class="fas fa-calculator me-2"></i>Sales Prediction
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="scenario-tab" data-bs-toggle="tab" data-bs-target="#scenario" type="button" role="tab">
+                    <i class="fas fa-chart-bar me-2"></i>Scenario Analysis
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="insights-tab" data-bs-toggle="tab" data-bs-target="#insights" type="button" role="tab">
+                    <i class="fas fa-lightbulb me-2"></i>Model Insights
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="attribution-tab" data-bs-toggle="tab" data-bs-target="#attribution" type="button" role="tab">
+                    <i class="fas fa-percentage me-2"></i>Marketing Attribution
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="mainTabContent">
+            <!-- Sales Prediction Tab -->
+            <div class="tab-pane fade show active" id="prediction" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-input me-2"></i>Marketing Inputs</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="predictionForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="tvSpend" class="form-label">TV Spend ($)</label>
+                                            <input type="number" class="form-control" id="tvSpend" value="50000" min="0" step="1000">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="radioSpend" class="form-label">Radio Spend ($)</label>
+                                            <input type="number" class="form-control" id="radioSpend" value="20000" min="0" step="1000">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="printSpend" class="form-label">Print Spend ($)</label>
+                                            <input type="number" class="form-control" id="printSpend" value="15000" min="0" step="1000">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="digitalSpend" class="form-label">Digital Spend ($)</label>
+                                            <input type="number" class="form-control" id="digitalSpend" value="30000" min="0" step="1000">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="competitorPrice" class="form-label">Competitor Price ($)</label>
+                                            <input type="number" class="form-control" id="competitorPrice" value="50" min="0" step="0.01">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="ourPrice" class="form-label">Our Price ($)</label>
+                                            <input type="number" class="form-control" id="ourPrice" value="55" min="0" step="0.01">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="holiday" class="form-label">Holiday Period</label>
+                                        <select class="form-select" id="holiday">
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-play me-2"></i>Predict Sales
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-line me-2"></i>Sales Prediction</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="predictionResult" class="text-center">
+                                    <div class="placeholder-content">
+                                        <i class="fas fa-chart-line fa-3x text-muted mb-3"></i>
+                                        <p class="text-muted">Enter marketing inputs and click "Predict Sales" to see results</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenario Analysis Tab -->
+            <div class="tab-pane fade" id="scenario" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-bar me-2"></i>Scenario Analysis</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <button class="btn btn-outline-primary w-100 mb-2" onclick="loadSampleScenarios()">
+                                            <i class="fas fa-download me-2"></i>Load Sample Scenarios
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-success w-100 mb-2" onclick="runScenarioAnalysis()">
+                                            <i class="fas fa-play me-2"></i>Run Analysis
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="scenarioResults">
+                                    <div class="placeholder-content">
+                                        <i class="fas fa-chart-bar fa-3x text-muted mb-3"></i>
+                                        <p class="text-muted">Load sample scenarios or create your own to analyze different marketing strategies</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-cog me-2"></i>Scenario Builder</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="scenarioBuilder">
+                                    <p class="text-muted">Click "Load Sample Scenarios" to see predefined scenarios</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model Insights Tab -->
+            <div class="tab-pane fade" id="insights" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-info-circle me-2"></i>Model Information</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="modelInfo">
+                                    <div class="text-center">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-star me-2"></i>Feature Importance</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="featureImportance">
+                                    <div class="text-center">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marketing Attribution Tab -->
+            <div class="tab-pane fade" id="attribution" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-percentage me-2"></i>Marketing Channel Attribution</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="attributionResults">
+                                    <div class="text-center">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-pie me-2"></i>Attribution Summary</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="attributionSummary">
+                                    <p class="text-muted">Loading attribution analysis...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div class="modal fade" id="loadingModal" tabindex="-1">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mb-0">Processing request...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 
