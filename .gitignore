@@ -78,6 +78,11 @@ target/
 # exclude data from source control by default
 /data/
 
+# Virtual environment
+venv/
+env/
+ENV/
+
 # Mac OS-specific storage files
 .DS_Store
 
